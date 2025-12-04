@@ -7,78 +7,13 @@
 5. [INSTRUCCIONES DE USO](#instrucciones)
 
 
-## <center>ESQUEMA DE RED</center>
+## ESQUEMA DE RED
 
+[EsquemaRed](img/EsquemaredASCII.png)
 
-
-
-   ┌─────────────────────────────────────┐
-   │         INTERNET (0.0.0.0/0)        │
-   └───────────────┬─────────────────────┘
-                   │
-          # INFRAESTRUCTURA WORDPRESS EN 3 CAPAS ALOJADO EN AWS
-## TABLA DE CONTENIDOS
-1. [ESQUEMA DE RED](#esquema-de-red)
-2. [DIRECCIONAMIENTO IP](#direccionamiento-ip)
-3. [REGLAS FIREWALL(GRUPOS DE SEGURIDAD)](#reglas-firewall)
-4. [SCRIPTS DE IMPLEMENTACIÓN](#scripts-de-implementacion)
-5. [INSTRUCCIONES DE USO](#instrucciones)
-
-
-## <center>ESQUEMA DE RED</center>
-
-
-
-
-   ┌─────────────────────────────────────┐
-   │         INTERNET (0.0.0.0/0)        │
-   └───────────────┬─────────────────────┘
-                   │
-               Puerto 80/443
-               3.85.178.47
-                   │
-                   |
-                   │                                            
-        ┌──────────▼──────────┐                               ┐   
-        │   10.0.1.0/24       │                               │  
-        (Capa 1 -  Balanceador)                               │
-        │                     │                               │  
-        │ ┌──────────────────┐│                               │  Enrutamiento con puerta de enlace 
-        │ │ balanceador      ││                               │  
-        │ │ 10.0.1.10        ||                               │
-        │   10.0.2.10        |│                               │  
-        │ └────────┬─────────┘│                               │ 
-        └──────────┼──────────┘                               ┘    
-                   │                                            
-         ┌─────────┴──────────┐                                  
-         │                    │                                  
-   ┌─────▼────────┐    ┌──────▼────────┐                       ┐ 
-   │ 10.0.2.0/24  │    │ 10.0.2.0/24   │                       | 
-   │ (Capa 2 - Web)    │ (Capa 2 - Web)│                       | 
-   │               │   │               │                       | 
-   │┌────────────┐ │   │┌────────────┐ │                       | 
-   ││ WebServer1 │ │   ││ WebServer2 │ │                       | 
-   ││ 10.0.2.20  │ │   ││ 10.0.2.21  | |                       |
-   ││ 10.0.3.20    │   ││ 10.0.3.21  | |                       |
-   │└────────┬───┘ │   │└────────┬───┘ │                       |
-   └─────────┼─────┘   └─────────┼─────┘                       | 
-             │                   │                             | 
-             └───────────┬───────┘                             |  Enrutamiento sin puerta de enlace
-                         │                                     | 
-             ┌───────────┴───────────┐                         |
-             │                       │                         | 
-       ┌─────▼─────────┐      ┌──────▼────────┐                |
-       │ 10.0.3.0/24   │      │ 10.0.3.0/24   │                |
-       │(Capa 3-Datos) │      │(Capa 3-Datos) │                |
-       │               │      │               │                |
-       │┌────────────┐ │      │┌────────────┐ │                |
-       ││    NFS     │ │      ││ BasedeDatos│ │                |
-       ││ 10.0.3.30  │ │      ││ 10.0.3.40  │ │                |
-       │└────────────┘ │      │└────────────┘ │                |
-       └───────────────┘      └───────────────┘                ┘
-## <center>INFRAESTRUCTURA </center>
+## INFRAESTRUCTURA
 Se ha creado una VPC en la red de AWS con IP 10.0.0.0/16 para seguidamente crear las subredes.
-<center>
+
 
 
 | Capa | Tipo de Subred | IP Red | Función |
@@ -88,7 +23,6 @@ Se ha creado una VPC en la red de AWS con IP 10.0.0.0/16 para seguidamente crear
 | **3** | Privada | 10.0.3.0/24 | Capa de datos (NFS y BBDD) |
 
 
-</center>
 Con esta infraestructura estamos protegiendo los datos importantes como son los datos de la base de datos o demás archivos que debamos compartir en el NFS, aparte de los de WordPress.
 - Se comprende un balanceador situado en la __CAPA 1__ para las cargas de los webs servers WS1 y WS2.
 - La instalación de WordPress se encuentra en cada uno de los Webservers en __CAPA 2__ y comparten los datos en NFS y guardan datos en la base de datos en __CAPA 3__ para tener una integridad en los datos.
@@ -99,8 +33,8 @@ Con esta infraestructura estamos protegiendo los datos importantes como son los 
   - Enrutamiento sin puerta de enlace.
      Esta no tiene una puerta de enlace, por lo que solo permite peticiones de la misma red interna.
 ---
-## <center>DIRECCIONAMIENTO IP</center>
-<center>
+## DIRECCIONAMIENTO IP
+
 
 
 | Capa | Máquina | IP Privada | Subred | Función |
@@ -112,16 +46,12 @@ Con esta infraestructura estamos protegiendo los datos importantes como son los 
 | 3 | BBDD-JaimeIglesias | 10.0.3.40 | 10.0.3.0/24 | MySQL/MariaDB |
 
 
-
-
-</center>
 Para mejorar el aprendizaje de las IP's las máquinas mantienen su número de hosts cuando comparten redes.
 
 
 ---
 
-
-## <center> REGLAS FIREWALL (GRUPOS DE SEGURIDAD)</center>
+## REGLAS FIREWALL (GRUPOS DE SEGURIDAD)<
 La creación de las máquinas ha llevado a la necesidad de crear unos grupos de seguridad para permitir y denegar los paquetes que no deseamos que lleguen.
 
 
@@ -131,7 +61,6 @@ La creación de las máquinas ha llevado a la necesidad de crear unos grupos de 
 
 
 Esta máquina necesita la recepción únicamente de paquetes del protocolo **SSH** para la conexión remota y paquetes **HTTP** y **HTTPS**.
-<center>
 
 
 | Protocolo | Puerto | Origen | Descripción |
@@ -141,7 +70,6 @@ Esta máquina necesita la recepción únicamente de paquetes del protocolo **SSH
 | TCP | 22 | 0.0.0.0/0 | SSH administración |
 
 
-</center>
 
 
 ### WEBSERVERS
@@ -152,7 +80,6 @@ Los servidores web ya se encuentran en una subred privada sin puerta de enlace, 
 
 
 Estas reglas permiten el acceso desde el balanceador a los servicios web vía **HTTP** o **HTTPS**, acceso a paquetes provenientes del servidor **NFS**, conexión **SSH** solo desde el balanceador y conexiones **SQL** solo desde el servidor de bases de datos
-<center>
 
 
 | Protocolo | Puerto | Origen | Descripción |
@@ -164,7 +91,6 @@ Estas reglas permiten el acceso desde el balanceador a los servicios web vía **
 | TCP | 3306 | 10.0.3.40 | MySQL desde BD |
 
 
-</center>
 
 
 ### NFS
@@ -173,7 +99,6 @@ Estas reglas permiten el acceso desde el balanceador a los servicios web vía **
 
 El servidor NFS debe únicamente recibir peticiones de paquetes **NFS** desde los webs servers de la capa 2.
 Se aplican reglas para la conexión **SSH** solo desde capa 2
-<center>
 
 
 | Protocolo | Puerto | Origen | Descripción |
@@ -182,7 +107,6 @@ Se aplican reglas para la conexión **SSH** solo desde capa 2
 | TCP | 22 | [10.0.3.0/24 | SSH administración |
 
 
-</center>
 
 
 ### BASE DE DATOS
@@ -191,14 +115,12 @@ Se aplican reglas para la conexión **SSH** solo desde capa 2
 
 Este es el eslabón más débil donde se encuentra la información más importante, lo cual hay que prestar atención en las reglas que se le asignan.
 Para este grupo únicamente se asignan reglas de entrada de peticiones **SQL** y **SSH** para su administración.
-<center>
 
 
 | Protocolo | Puerto | Origen | Descripción |
 |-----------|--------|--------|-------------|
 | TCP | 3306 | 10.0.3.0/24 | MySQL desde WebServers |
 | TCP | 22 | 10.0.3.0/24| SSH administración |
-</center>
 
 
 ### RECORDATORIO
@@ -210,7 +132,7 @@ Como se puede observar, las conexiones **SSH** solo se pueden establecer desde l
 ---
 
 
-##  <center>CREACIÓN DE MÁQUINAS</center>
+##  CREACIÓN DE MÁQUINAS
 
 
 Todas las máquinas creadas son instaladas con _Ubuntu_  y es **importante habilitar la asignación de IP pública** para obtener una conexión a la red de internet en las máquinas asignadas a subredes privadas para su aprovisionamiento y desactivar esta opción tras acabar el proceso de instalación.
@@ -464,18 +386,15 @@ Esto creará automáticamente el archivo de apache que habilita la conexión HTT
 
 
 
-## <center>INSTRUCCIONES DE USO</center>
+## INSTRUCCIONES DE USO
 Para el acceso a esta infraestructura ya creada se debe acceder a través del nombre de dominio asignado a la IP elástica.
 
 
 Para este caso se ha escogido el siguiente dominio.
-<center>
 
 
 [jaimeiglesias.ddns.net](https://jaimeiglesias.ddns.net)
 
-
-</center>
 
 
 Asegúrese de que las instancias en AWS están encendidas y accesibles.
