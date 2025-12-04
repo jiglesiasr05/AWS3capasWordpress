@@ -1,10 +1,11 @@
 # INFRAESTRUCTURA WORDPRESS EN 3 CAPAS ALOJADO EN AWS
 ## TABLA DE CONTENIDOS
-1. [ESQUEMA DE RED](#esquema-de-red)
-2. [DIRECCIONAMIENTO IP](#direccionamiento-ip)
-3. [REGLAS FIREWALL(GRUPOS DE SEGURIDAD)](#reglas-firewall)
-4. [SCRIPTS DE IMPLEMENTACIÓN](#scripts-de-implementacion)
-5. [INSTRUCCIONES DE USO](#instrucciones)
+  - [ESQUEMA DE RED](#ESQUEMA-DE-RED)
+  - [INFRAESTRUCTURA](#INFRAESTRUCTURA)
+  - [DIRECCIONAMIENTO IP](#DIRECCIONAMIENTO-IP)
+  - [REGLAS FIREWALL (GRUPOS DE SEGURIDAD)](#REGLAS-FIREWALL-GRUPOS-DE-SEGURIDAD)
+  - [CREACIÓN DE MÁQUINAS](#CREACIÓN-DE-MÁQUINAS)
+  - [INSTRUCCIONES DE USO](#INSTRUCCIONES-DE-USO)
 
 
 ## ESQUEMA DE RED
@@ -393,6 +394,6 @@ Para este caso se ha escogido el siguiente dominio.
 
 [jaimeiglesias.ddns.net](https://jaimeiglesias.ddns.net)
 
-
+![PaginaWebInicio](img/PantallaInicioWeb.png)
 
 Asegúrese de que las instancias en AWS están encendidas y accesibles.
