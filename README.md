@@ -130,8 +130,8 @@ Con esta infraestructura estamos protegiendo los datos importantes como son los 
 | Capa | Máquina | IP Privada | Subred | Función |
 |------|-----------|-----------|--------|---------|
 | 1 | balanceador | 10.0.1.10 | 10.0.1.0/24 | Distribuye tráfico HTTP/HTTPS |
-| 2 | WS1-JaimeIglesias | 10.0.2.20 | 10.0.2.0/24 | Aloja WordPress |
-| 2 | WS2-JaimeIglesias | 10.0.2.21 | 10.0.2.0/24 | Aloja WordPress |
+| 2 | WS1-JaimeIglesias | 10.0.2.20 | 10.0.2.0/24 | Servidor Web |
+| 2 | WS2-JaimeIglesias | 10.0.2.21 | 10.0.2.0/24 | Servidor  Web |
 | 3 | NFS | 10.0.3.30 | 10.0.3.0/24 | Almacenamiento compartido |
 | 3 | BBDD-JaimeIglesias | 10.0.3.40 | 10.0.3.0/24 | MySQL/MariaDB |
 
