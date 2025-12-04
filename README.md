@@ -9,7 +9,7 @@
 
 ## ESQUEMA DE RED
 
-[EsquemaRed](img/EsquemaredASCII.png)
+![EsquemaRed](img/EsquemaredASCII.png)
 
 ## INFRAESTRUCTURA
 Se ha creado una VPC en la red de AWS con IP 10.0.0.0/16 para seguidamente crear las subredes.
@@ -34,8 +34,6 @@ Con esta infraestructura estamos protegiendo los datos importantes como son los 
      Esta no tiene una puerta de enlace, por lo que solo permite peticiones de la misma red interna.
 ---
 ## DIRECCIONAMIENTO IP
-
-
 
 | Capa | Máquina | IP Privada | Subred | Función |
 |------|-----------|-----------|--------|---------|
